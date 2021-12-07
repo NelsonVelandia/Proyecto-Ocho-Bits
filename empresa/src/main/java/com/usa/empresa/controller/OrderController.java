@@ -1,8 +1,7 @@
+package com.usa.empresa.controller;
 
-package com.usa.alquiler.controller;
-
-import com.usa.alquiler.entity.Category;
-import com.usa.alquiler.services.CategoryService;
+import com.usa.empresa.entity.Order;
+import com.usa.empresa.services.OrderService;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,39 +23,44 @@ import org.springframework.web.bind.annotation.RestController;
  * @author NELSON
  */
 @RestController
-@RequestMapping("/api/Category")
-@CrossOrigin(origins = "*", methods= {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.DELETE})
-public class CategoryController {
-    
-     @Autowired
-    private CategoryService categoryService ;
-    
+@RequestMapping("/api/order")
+@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
+public class OrderController {
+
+    @Autowired
+    private OrderService orderService;
+
     @GetMapping("/all")
-    public List <Category> getAllCategory(){
-        return categoryService.getAllCategory();
+    public List<Order> getAllOrder() {
+        return orderService.getAllOrder();
     }
-    
+
     @GetMapping("/{id}")
-    public Optional<Category> getIdCategory(@PathVariable("id") int idCategory){
-        return categoryService.getIdCategory(idCategory);
+    public Optional<Order> getIdOrder(@PathVariable("id") int id) {
+        return orderService.getIdOrder(id);
     }
-    
-    @PostMapping("/save")
+
+    @PostMapping("/new")
     @ResponseStatus(HttpStatus.CREATED)
-    public Category save(@RequestBody Category category){
-        return categoryService.save(category);
+    public Order create(@RequestBody Order gadget) {
+        return orderService.save(gadget);
     }
-    
+
     @PutMapping("/update")
     @ResponseStatus(HttpStatus.CREATED)
-    public Category update(@RequestBody Category category){
-        return categoryService.update(category);
+    public Order update(@RequestBody Order gadget) {
+        return orderService.update(gadget);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public boolean deleteCategory(@PathVariable("id") int id){
-        return categoryService.deleteCategory(id);
+    public boolean delete(@PathVariable("id") int id) {
+        return orderService.delete(id);
     }
-    
+
+    //Reto 3:Ordenes de pedido asociadas a los asesores de una zona
+    @GetMapping("/zona/{zona}")
+    public List<Order> findByZone(@PathVariable("zona") String zona) {
+        return orderService.findByZone(zona);
+    }
 }

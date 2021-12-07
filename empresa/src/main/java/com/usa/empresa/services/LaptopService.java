@@ -25,7 +25,7 @@ public class LaptopService {
         return laptopRepository.getIdLaptop(idLaptop);
     }
 
-    public Laptop save(Laptop laptop) {
+    public Laptop save1(Laptop laptop) {
 
         if (laptop.getId() == null) {
             return laptop;
@@ -36,6 +36,30 @@ public class LaptopService {
             }
         }
         return laptopRepository.save(laptop);
+    }
+    
+    public Laptop save(Laptop laptop) {
+
+        //obtiene el maximo id existente en la coleccion
+        Optional<Laptop> laptopIdMaxima = laptopRepository.lastUserId();
+
+        //si el id de la orden que se recibe como parametro es nulo, entonces valida el maximo id existente en base de datos
+        if (laptop.getId() == null) {
+            //valida el maximo id generado, si no hay ninguno aun el primer id sera 1
+            if (!laptopIdMaxima.isPresent()) {
+                laptop.setId(1);
+            } //si retorna informacion suma 1 al maximo id existente y lo asigna como el codigo de la orden
+            else {
+                laptop.setId(laptopIdMaxima.get().getId() + 1);
+            }
+        }
+
+        Optional<Laptop> exs = laptopRepository.getIdLaptop(laptop.getId());
+        if (!exs.isPresent()) {
+            return laptopRepository.save(laptop);
+        } else {
+            return laptop;
+        }
     }
 
     public Laptop update(Laptop laptop) {

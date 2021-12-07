@@ -25,20 +25,49 @@ public class UserService {
         return userRepository.getIdUser(idUser);
     }
 
-    public User save(User user) {
+    public User save1(User user) {
         if (user.getId() == null) {
             return user;
-        }else{
+        } else {
             Optional<User> usa = userRepository.getIdUser(user.getId());
-            if(usa.isPresent()){
+            if (usa.isPresent()) {
                 return user;
             }
-            if (existeEmail(user.getEmail()) == false){
+            if (existeEmail(user.getEmail()) == false) {
                 return userRepository.save(user);
-            }else{
+            } else {
                 return user;
             }
         }
+    }
+
+    public User save(User user) {
+
+        //obtiene el maximo id existente en la coleccion
+        Optional<User> userIdMaximo = userRepository.lastUserId();
+
+        //si el id del Usaurio que se recibe como parametro es nulo, entonces valida el maximo id existente en base de datos
+        if (user.getId() == null) {
+            //valida el maximo id generado, si no hay ninguno aun el primer id sera 1
+            if (!userIdMaximo.isPresent()) {
+                user.setId(1);
+            } //si retorna informacion suma 1 al maximo id existente y lo asigna como el codigo del usuario
+            else {
+                user.setId(userIdMaximo.get().getId() + 1);
+            }
+        }
+
+        Optional<User> exs = userRepository.getIdUser(user.getId());
+        if (!exs.isPresent()) {
+            if (existeEmail(user.getEmail()) == false) {
+                return userRepository.save(user);
+            } else {
+                return user;
+            }
+        } else {
+            return user;
+        }
+
     }
 
     public boolean existeEmail(String email) {

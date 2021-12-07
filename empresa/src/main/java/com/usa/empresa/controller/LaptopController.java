@@ -49,7 +49,7 @@ public class LaptopController {
      * @param idLaptop
      * @return
      */
-    @GetMapping("/={id}")
+    @GetMapping("/{id}")
     public Optional<Laptop> getIdLaptop(@PathVariable("id") int idLaptop) {
         return laptopService.getIdLaptop(idLaptop);
     }

@@ -49,7 +49,7 @@ public class UserController {
      * @param idUser
      * @return
      */
-    @GetMapping("/={id}")
+    @GetMapping("/{id}")
     public Optional<User> getIdUser(@PathVariable("id") int idUser) {
         return userService.getIdUser(idUser);
     }
@@ -81,13 +81,13 @@ public class UserController {
     /**
      * Borrar un usuario.
      *
-     * @param id
+     * @param idUs
      * @return
      */
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public boolean deleteUser(@PathVariable("id") int id) {
-        return userService.deleteUser(id);
+    public boolean deleteUser(@PathVariable("id") int idUs) {
+        return userService.deleteUser(idUs);
     }
 
     /**
