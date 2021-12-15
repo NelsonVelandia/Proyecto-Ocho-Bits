@@ -14,17 +14,35 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
 
+    /**
+     * Variable de clase UserRepository.
+     */
     @Autowired
     private UserRepository userRepository;
 
+    /**
+     * Listar todos los Usuarios.
+     * @return 
+     */
     public List<User> getAllUser() {
         return userRepository.getAllUser();
     }
-
+    
+    /**
+     * Traer un Usuario por Id si existe.
+     * @param idUser
+     * @return 
+     */
     public Optional<User> getIdUser(int idUser) {
         return userRepository.getIdUser(idUser);
     }
 
+    /**
+     * Guardar
+     * @param user
+     * @return 
+     */
+    
     public User save1(User user) {
         if (user.getId() == null) {
             return user;
@@ -41,6 +59,11 @@ public class UserService {
         }
     }
 
+    /**
+     * Guardar
+     * @param user
+     * @return 
+     */
     public User save(User user) {
 
         //obtiene el maximo id existente en la coleccion
@@ -70,10 +93,21 @@ public class UserService {
 
     }
 
+    /**
+     * Verificar email.
+     * @param email
+     * @return 
+     */
     public boolean existeEmail(String email) {
         return userRepository.existeEmail(email);
     }
 
+    /**
+     * Autenticar
+     * @param email
+     * @param password
+     * @return 
+     */
     public User autenticarUsuario(String email, String password) {
         Optional<User> usuario = userRepository.autenticarUsuario(email, password);
 
@@ -84,6 +118,11 @@ public class UserService {
         }
     }
 
+    /**
+     * Actualizar
+     * @param user
+     * @return 
+     */
     public User update(User user) {
         if (user.getId() != null) {
             Optional<User> cli = userRepository.getIdUser(user.getId());
@@ -119,12 +158,26 @@ public class UserService {
         return user;
     }
 
-    public boolean deleteUser(int id) {
-        Optional<User> cli = getIdUser(id);
+    /**
+     * Eliminar
+     * @param idUs
+     * @return 
+     */
+    public boolean deleteUser(int idUs) {
+        Optional<User> cli = getIdUser(idUs);
         if (cli.isPresent()) {
             userRepository.delete(cli.get());
             return true;
         }
         return false;
+    }
+    
+    /**
+     * Retorna los cumpleaños del mes.
+     * @param month
+     * @return 
+     */
+    public List<User> listBirthtDayMonth(String month){
+        return userRepository.listBirthtDayMonth(month);
     }
 }

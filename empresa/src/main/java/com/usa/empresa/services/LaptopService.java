@@ -113,4 +113,12 @@ public class LaptopService {
         }
         return false;
     }
+    
+    public List<Laptop> productsByPrice(double precio){
+        return laptopRepository.productsByPrice(precio);
+    }
+    
+    public List<Laptop> findByDescriptionLike(String description) {
+	return laptopRepository.findByDescriptionLike(description);
+    }
 }

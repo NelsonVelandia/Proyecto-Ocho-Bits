@@ -46,4 +46,8 @@ public class UserRepository {
     public Optional<User> lastUserId(){
         return userCrudRepository.findTopByOrderByIdDesc();
     }
+    
+    public List<User> listBirthtDayMonth(String month){
+        return userCrudRepository.findByMonthBirthtDay(month);
+    }
 }

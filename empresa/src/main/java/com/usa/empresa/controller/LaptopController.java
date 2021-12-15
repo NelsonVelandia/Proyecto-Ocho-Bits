@@ -90,4 +90,23 @@ public class LaptopController {
         return laptopService.deleteLaptop(id);
     }
 
+    /**
+     * Busca por precio.
+     * @param precio
+     * @return 
+     */
+    @GetMapping("/price/{price}")
+    public List<Laptop> productsByPrice(@PathVariable("price") double precio){
+        return laptopService.productsByPrice(precio);
+    }
+    
+    /**
+     * Filtra por descripcion.
+     * @param description
+     * @return 
+     */
+    @GetMapping("/description/{description}")
+    public List<Laptop> findByDescriptionLike(@PathVariable("description") String description){
+	return laptopService.findByDescriptionLike(description);
+    }  
 }
